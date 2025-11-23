@@ -8,12 +8,12 @@ import {
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from '@/components/ui/DropdownMenu';
+} from '@/src/components/ui/DropdownMenu';
 import { User, LogOut } from 'lucide-react';
-import { useUser } from '@/app/hooks/useUser';
-import { supabase } from '@/app/lib/supabaseClient';
 import { DropdownMenuLabel } from '@radix-ui/react-dropdown-menu';
 import { useRouter } from 'next/navigation';
+import { useUser } from '@/src/hooks/useUser';
+import { supabase } from '@/src/lib/supabaseClient';
 
 export default function Header() {
   const router = useRouter();

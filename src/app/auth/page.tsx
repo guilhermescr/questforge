@@ -1,10 +1,10 @@
 'use client';
 
 import { useEffect } from 'react';
-import { supabase } from '@/app/lib/supabaseClient';
-import { useUser } from '../hooks/useUser';
+import { useUser } from '@/src/hooks/useUser';
+import { supabase } from '@/src/lib/supabaseClient';
 import { useRouter } from 'next/navigation';
-import GradientText from '../components/gradientText/GradientText';
+import GradientText from '../../components/gradientText/GradientText';
 
 function WhiteGoogleSVG() {
   return (

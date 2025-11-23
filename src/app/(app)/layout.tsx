@@ -2,8 +2,8 @@
 
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { useUser } from '../hooks/useUser';
-import Header from '../components/header/Header';
+import { useUser } from '@/src/hooks/useUser';
+import Header from '../../components/header/Header';
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   const user = useUser();
