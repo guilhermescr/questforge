@@ -8,7 +8,7 @@ import {
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdownMenu';
+} from '@/components/ui/DropdownMenu';
 import { User, LogOut } from 'lucide-react';
 import { useUser } from '@/app/hooks/useUser';
 import { supabase } from '@/app/lib/supabaseClient';
