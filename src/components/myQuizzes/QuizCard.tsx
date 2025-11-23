@@ -9,6 +9,7 @@ import DeleteDialog from '../deleteDialog/DeleteDialog';
 import { useState } from 'react';
 import routes from '@/src/lib/routes';
 import { Clock, Eye, Pencil, Share2, Trash2 } from 'lucide-react';
+import { supabase } from '@/src/lib/supabaseClient';
 
 interface QuizCardProps {
   quiz: QuizDTO;
@@ -28,20 +29,21 @@ export default function QuizCard({ quiz }: QuizCardProps) {
     setIsDeleting(true);
 
     try {
-      // supabase delete logic here
-      // const response = await fetch(`/api/quizzes/${quiz.id}`, {
-      //   method: 'DELETE',
-      // });
-      // if (!response.ok) {
-      //   throw new Error('Failed to delete quiz');
-      // }
+      const { error } = await supabase
+        .from('quizzes')
+        .delete()
+        .eq('id', quiz.id);
+
+      if (error) {
+        throw new Error(error.message);
+      }
 
       // remove the card from the UI or refresh the list
 
       toast.success('Quiz deleted successfully!');
     } catch (error) {
       console.error(error);
-      toast.error('Failed to delete quiz');
+      toast.error('Failed to delete quiz!');
     } finally {
       setIsDeleting(false);
       setShowDeleteConfirm(false);
