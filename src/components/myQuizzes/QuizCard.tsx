@@ -8,7 +8,7 @@ import { toast } from 'sonner';
 import DeleteDialog from '../deleteDialog/DeleteDialog';
 import { useState } from 'react';
 import routes from '@/src/lib/routes';
-import { Eye, Pencil, Share2, Trash2 } from 'lucide-react';
+import { Clock, Eye, Pencil, Share2, Trash2 } from 'lucide-react';
 
 interface QuizCardProps {
   quiz: QuizDTO;
@@ -73,8 +73,8 @@ export default function QuizCard({ quiz }: QuizCardProps) {
           {quiz.answerChecking === 'immediate' ? 'Immediate' : 'On Completion'}
         </p>
 
-        <p className="text-sm text-muted-foreground my-4">
-          Created {formatDate(quiz.createdAt)}
+        <p className="text-sm text-muted-foreground my-4 flex items-center gap-2">
+          <Clock size={18} /> Created {formatDate(quiz.createdAt)}
         </p>
 
         <div className="flex flex-wrap gap-2 items-center">
