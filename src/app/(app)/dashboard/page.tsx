@@ -3,6 +3,7 @@
 import MyQuizzes from '@/src/components/myQuizzes/MyQuizzes';
 import { Button } from '@/src/components/ui/Button';
 import routes from '@/src/lib/routes';
+import { Plus } from 'lucide-react';
 import Link from 'next/link';
 
 export default function Dashboard() {
@@ -17,7 +18,9 @@ export default function Dashboard() {
         </div>
 
         <Link href={routes.quiz.new}>
-          <Button className="px-6">Create Quiz</Button>
+          <Button>
+            <Plus size={18} className="mr-2" /> Create Quiz
+          </Button>
         </Link>
       </header>
 
