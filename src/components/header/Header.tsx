@@ -15,6 +15,7 @@ import { useRouter } from 'next/navigation';
 import { useUser } from '@/src/hooks/useUser';
 import { supabase } from '@/src/lib/supabaseClient';
 import routes from '@/src/lib/routes';
+import { Button } from '../ui/Button';
 
 export default function Header() {
   const router = useRouter();
@@ -47,13 +48,10 @@ export default function Header() {
 
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <button
-              type="button"
-              className="cursor-pointer flex items-center gap-2 ml-auto"
-            >
-              <User />
+            <Button variant="ghost" className="ml-auto">
+              <User size={18} className="mr-1" />
               {user.user_metadata.full_name}
-            </button>
+            </Button>
           </DropdownMenuTrigger>
 
           <DropdownMenuContent align="end" className="w-56">
