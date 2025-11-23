@@ -8,6 +8,7 @@ import { toast } from 'sonner';
 import DeleteDialog from '../deleteDialog/DeleteDialog';
 import { useState } from 'react';
 import routes from '@/src/lib/routes';
+import { Eye, Pencil, Share2, Trash2 } from 'lucide-react';
 
 interface QuizCardProps {
   quiz: QuizDTO;
@@ -49,8 +50,18 @@ export default function QuizCard({ quiz }: QuizCardProps) {
 
   return (
     <>
-      <section className="p-5 rounded-md bg-card border border-border hover:border-primary transition-colors">
-        <h3 className="font-semibold text-white text-xl">{quiz.title}</h3>
+      <section className="p-5 rounded-md bg-card border border-border hover:border-primary transition-colors relative">
+        <div className="absolute top-3 right-3">
+          <Button
+            variant="destructiveRounded"
+            size="sm"
+            onClick={() => setShowDeleteConfirm(true)}
+          >
+            <Trash2 size={18} />
+          </Button>
+        </div>
+
+        <h3 className="font-semibold text-white text-xl pr-6">{quiz.title}</h3>
 
         <p className="text-sm text-muted-foreground mt-2">
           {quiz.questions} {quiz.questions === 1 ? 'question' : 'questions'}{' '}
@@ -66,25 +77,29 @@ export default function QuizCard({ quiz }: QuizCardProps) {
           Created {formatDate(quiz.createdAt)}
         </p>
 
-        <div className="flex gap-2 items-center">
+        <div className="flex flex-wrap gap-2 items-center">
           <Link href={routes.quiz.view(quiz.id)}>
-            <Button size="sm">View</Button>
+            <Button size="sm">
+              <Eye className="mr-1" size={18} /> View
+            </Button>
           </Link>
 
           <Link href={routes.quiz.edit(quiz.id)}>
-            <Button variant="secondary">Edit</Button>
+            <Button variant="secondary">
+              <Pencil size={18} /> Edit
+            </Button>
           </Link>
 
           <Button variant="secondary" onClick={handleCopyLink}>
-            Copy Link
+            <Share2 size={18} /> Share
           </Button>
 
-          <Button
+          {/* <Button
             variant="destructiveOutline"
             onClick={() => setShowDeleteConfirm(true)}
           >
             Delete
-          </Button>
+          </Button> */}
         </div>
       </section>
 

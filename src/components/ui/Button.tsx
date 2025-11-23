@@ -18,13 +18,27 @@ const buttonVariants = cva(
           'bg-red-600 text-white hover:bg-red-700 focus-visible:ring-red-500',
         destructiveOutline:
           'text-red-600 hover:bg-red-600 hover:text-white focus-visible:ring-red-500',
+        destructiveRounded:
+          'bg-red-600 text-white hover:bg-red-700 focus-visible:ring-red-500 rounded-full',
       },
       size: {
         default: 'h-9 px-4 py-2',
-        sm: 'h-8 rounded-md px-3',
-        lg: 'h-10 rounded-md px-6',
+        sm: 'h-8 px-3',
+        lg: 'h-10 px-6',
       },
     },
+    compoundVariants: [
+      {
+        variant: 'destructiveRounded',
+        size: 'sm',
+        className: 'px-2',
+      },
+      {
+        variant: 'destructiveRounded',
+        size: 'lg',
+        className: 'px-6',
+      },
+    ],
     defaultVariants: {
       variant: 'default',
       size: 'default',
