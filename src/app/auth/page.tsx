@@ -5,6 +5,7 @@ import { useUser } from '@/src/hooks/useUser';
 import { supabase } from '@/src/lib/supabaseClient';
 import { useRouter } from 'next/navigation';
 import GradientText from '../../components/gradientText/GradientText';
+import routes from '@/src/lib/routes';
 
 function WhiteGoogleSVG() {
   return (
@@ -37,7 +38,7 @@ export default function AuthPage() {
     if (user === undefined) return;
     if (user === null) return;
 
-    router.push('/dashboard');
+    router.push(routes.dashboard);
   }, [user, router]);
 
   async function signInWithGoogle() {

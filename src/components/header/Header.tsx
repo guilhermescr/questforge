@@ -14,6 +14,7 @@ import { DropdownMenuLabel } from '@radix-ui/react-dropdown-menu';
 import { useRouter } from 'next/navigation';
 import { useUser } from '@/src/hooks/useUser';
 import { supabase } from '@/src/lib/supabaseClient';
+import routes from '@/src/lib/routes';
 
 export default function Header() {
   const router = useRouter();
@@ -23,7 +24,7 @@ export default function Header() {
 
   async function logout() {
     await supabase.auth.signOut();
-    router.push('/auth');
+    router.push(routes.auth);
   }
 
   return (
@@ -36,7 +37,7 @@ export default function Header() {
         <nav className="ml-6">
           <ul>
             <li>
-              <Link href="/dashboard" className={styles.navLink}>
+              <Link href={routes.dashboard} className={styles.navLink}>
                 My Quizzes
               </Link>
             </li>

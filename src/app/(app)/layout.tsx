@@ -4,6 +4,8 @@ import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useUser } from '@/src/hooks/useUser';
 import Header from '../../components/header/Header';
+import Wrapper from '@/src/components/wrapper/Wrapper';
+import routes from '@/src/lib/routes';
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   const user = useUser();
@@ -12,7 +14,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     if (user === undefined) return;
     if (user === null) {
-      router.push('/auth');
+      router.push(routes.auth);
     }
   }, [user, router]);
 
@@ -25,9 +27,11 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   }
 
   return (
-    <div>
+    <>
       <Header />
-      <main>{children}</main>
-    </div>
+      <Wrapper>
+        <main className="py-8">{children}</main>
+      </Wrapper>
+    </>
   );
 }

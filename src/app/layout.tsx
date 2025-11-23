@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { Inter, Fira_Code } from 'next/font/google';
 import './globals.css';
+import { Toaster } from '../components/ui/Sonner';
 
 const inter = Inter({
   variable: '--font-inter',
@@ -29,6 +30,7 @@ export default function RootLayout({
         suppressHydrationWarning
         className={`${inter.variable} ${firaCode.variable} antialiased`}
       >
+        <Toaster position="top-right" closeButton richColors expand />
         {children}
       </body>
     </html>
