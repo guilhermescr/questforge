@@ -1,0 +1,80 @@
+import Link from 'next/link';
+import GradientText from '../gradientText/GradientText';
+import Wrapper from '../wrapper/Wrapper';
+import styles from './header.module.css';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdownMenu';
+import { User, LogOut } from 'lucide-react';
+import { useUser } from '@/app/hooks/useUser';
+import { supabase } from '@/app/lib/supabaseClient';
+import { DropdownMenuLabel } from '@radix-ui/react-dropdown-menu';
+import { useRouter } from 'next/navigation';
+
+export default function Header() {
+  const router = useRouter();
+  const user = useUser();
+
+  if (!user) return null;
+
+  async function logout() {
+    await supabase.auth.signOut();
+    router.push('/auth');
+  }
+
+  return (
+    <header className="w-full py-4 bg-card border-b border-border">
+      <Wrapper className="flex items-center justify-start">
+        <h1 className="font-bold">
+          <GradientText className="text-2xl">QuestForge</GradientText>
+        </h1>
+
+        <nav className="ml-6">
+          <ul>
+            <li>
+              <Link href="/dashboard" className={styles.navLink}>
+                My Quizzes
+              </Link>
+            </li>
+          </ul>
+        </nav>
+
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <button
+              type="button"
+              className="cursor-pointer flex items-center gap-2 ml-auto"
+            >
+              <User />
+              {user.user_metadata.full_name}
+            </button>
+          </DropdownMenuTrigger>
+
+          <DropdownMenuContent align="end" className="w-56">
+            <DropdownMenuLabel>
+              <div className="flex flex-col space-y-1 py-1.5 px-2">
+                <p className="text-sm font-medium leading-none">
+                  {user.user_metadata.full_name}
+                </p>
+                <p className="text-xs leading-none text-muted-foreground">
+                  {user.email}
+                </p>
+              </div>
+            </DropdownMenuLabel>
+
+            <DropdownMenuSeparator />
+
+            <DropdownMenuItem onClick={logout}>
+              <LogOut className="mr-2 h-4 w-4" />
+              Sign out
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </Wrapper>
+    </header>
+  );
+}
