@@ -78,17 +78,17 @@ export default function QuizCard({ quiz }: QuizCardProps) {
         </p>
 
         <div className="flex flex-wrap gap-2 items-center">
-          <Link href={routes.quiz.view(quiz.id)}>
-            <Button size="sm">
+          <Button size="sm" asChild>
+            <Link href={routes.quiz.view(quiz.id)}>
               <Eye className="mr-1" size={18} /> View
-            </Button>
-          </Link>
+            </Link>
+          </Button>
 
-          <Link href={routes.quiz.edit(quiz.id)}>
-            <Button variant="secondary">
+          <Button variant="secondary" asChild>
+            <Link href={routes.quiz.edit(quiz.id)}>
               <Pencil size={18} /> Edit
-            </Button>
-          </Link>
+            </Link>
+          </Button>
 
           <Button variant="secondary" onClick={handleCopyLink}>
             <Share2 size={18} /> Share

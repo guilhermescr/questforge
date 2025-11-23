@@ -48,9 +48,9 @@ export default function MyQuizzes() {
           Get started by creating your first quiz!
         </p>
 
-        <Link href={routes.quiz.new}>
-          <Button className="mt-5">Create Your First Quiz</Button>
-        </Link>
+        <Button className="mt-5" asChild>
+          <Link href={routes.quiz.new}>Create Your First Quiz</Link>
+        </Button>
       </section>
     );
   }

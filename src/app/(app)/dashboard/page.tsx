@@ -17,11 +17,11 @@ export default function Dashboard() {
           </p>
         </div>
 
-        <Link href={routes.quiz.new}>
-          <Button>
+        <Button asChild>
+          <Link href={routes.quiz.new}>
             <Plus size={18} className="mr-2" /> Create Quiz
-          </Button>
-        </Link>
+          </Link>
+        </Button>
       </header>
 
       <MyQuizzes />
