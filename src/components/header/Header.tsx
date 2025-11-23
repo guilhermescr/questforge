@@ -9,7 +9,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/src/components/ui/DropdownMenu';
-import { User, LogOut } from 'lucide-react';
+import { User, LogOut, Flame } from 'lucide-react';
 import { DropdownMenuLabel } from '@radix-ui/react-dropdown-menu';
 import { useRouter } from 'next/navigation';
 import { useUser } from '@/src/hooks/useUser';
@@ -30,12 +30,13 @@ export default function Header() {
   return (
     <header className="w-full py-4 bg-card border-b border-border">
       <Wrapper className="flex items-center justify-start">
-        <h1 className="font-bold">
+        <h1 className="font-bold flex items-center gap-2">
+          <Flame className="text-primary" />
           <GradientText className="text-2xl">QuestForge</GradientText>
         </h1>
 
         <nav className="ml-6">
-          <ul>
+          <ul className="pt-1">
             <li>
               <Link href={routes.dashboard} className={styles.navLink}>
                 My Quizzes
