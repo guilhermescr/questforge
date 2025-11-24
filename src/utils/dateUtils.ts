@@ -6,7 +6,11 @@ export function formatDate(dateString: string): string {
 
   const timeZone = 'America/Sao_Paulo';
 
-  const utcDate = new Date(`${dateString}T03:00:00Z`);
+  const utcDate = new Date(dateString);
+  if (isNaN(utcDate.getTime())) {
+    throw new RangeError('Invalid date value');
+  }
+
   const zonedDate = toZonedTime(utcDate, timeZone);
 
   return format(zonedDate, 'MMMM d, yyyy');
