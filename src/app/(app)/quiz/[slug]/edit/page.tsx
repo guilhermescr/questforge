@@ -5,60 +5,83 @@ import { QuizFormType } from '@/src/components/quizForm/quizForm.schema';
 import { supabase } from '@/src/lib/supabaseClient';
 import { toast } from 'sonner';
 import { useEffect, useRef, useState } from 'react';
-import { useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import { Button } from '@/src/components/ui/Button';
 import Link from 'next/link';
 import { MoveLeft } from 'lucide-react';
 import Loading from '@/src/components/loading/Loading';
+import routes from '@/src/lib/routes';
 
 export default function EditQuizPage() {
   const { slug } = useParams();
+  const router = useRouter();
   const [initialValues, setInitialValues] = useState<QuizFormType | null>(null);
   const [notFound, setNotFound] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
   const hasFetched = useRef(false);
 
   useEffect(() => {
     if (!slug || hasFetched.current) return;
 
     const fetchQuiz = async () => {
-      const { data, error } = await supabase
-        .from('quizzes')
-        .select('*')
-        .eq('id', slug)
-        .single();
+      try {
+        const { data, error } = await supabase
+          .from('quizzes')
+          .select('*')
+          .eq('id', slug)
+          .single();
 
-      if (error || !data) {
-        console.error('Error fetching quiz:', error);
+        if (error || !data) {
+          console.error('Error fetching quiz:', error);
+          setNotFound(true);
+          toast.error('Quiz not found.');
+        } else {
+          setInitialValues({
+            title: data.title,
+            answerCheckingMode: data.answer_checking_mode,
+            questions: data.questions,
+          });
+        }
+      } catch (err) {
+        console.error('Unexpected error fetching quiz:', err);
         setNotFound(true);
-        toast.error('Quiz not found.');
-      } else {
-        setInitialValues({
-          title: data.title,
-          answerCheckingMode: data.answer_checking_mode,
-          questions: data.questions,
-        });
+        toast.error('An unexpected error occurred while fetching the quiz.');
+      } finally {
+        hasFetched.current = true;
       }
     };
 
     fetchQuiz();
-    hasFetched.current = true;
   }, [slug]);
 
   const handleSubmit = async (data: QuizFormType) => {
-    const { error } = await supabase
-      .from('quizzes')
-      .update({
-        title: data.title,
-        answer_checking_mode: data.answerCheckingMode,
-        questions: data.questions,
-      })
-      .eq('id', slug);
+    setIsSaving(true);
 
-    if (error) {
-      console.error('Error updating quiz:', error);
-      toast.error('Failed to update quiz.');
-    } else {
-      toast.success('Quiz updated successfully!');
+    try {
+      const { error } = await supabase
+        .from('quizzes')
+        .update({
+          title: data.title,
+          answer_checking_mode: data.answerCheckingMode,
+          questions: data.questions,
+        })
+        .eq('id', slug);
+
+      if (error) {
+        console.error('Error updating quiz:', error);
+        toast.error('Failed to update quiz.');
+      } else {
+        toast.success('Quiz updated successfully!');
+
+        if (slug) {
+          router.push(routes.quiz.view(slug as string));
+        }
+      }
+    } catch (err) {
+      console.error('Unexpected error updating quiz:', err);
+      toast.error('An unexpected error occurred while updating the quiz.');
+    } finally {
+      setIsSaving(false);
     }
   };
 
@@ -96,6 +119,7 @@ export default function EditQuizPage() {
         initialValues={initialValues}
         onSubmit={handleSubmit}
         submitButtonText="Update Quiz"
+        loading={isSaving}
       />
     </>
   );

@@ -17,12 +17,14 @@ interface QuizFormProps {
   initialValues: QuizFormType;
   onSubmit: (data: QuizFormType) => void;
   submitButtonText: string;
+  loading?: boolean;
 }
 
 export default function QuizForm({
   initialValues,
   onSubmit,
   submitButtonText,
+  loading,
 }: QuizFormProps) {
   const formMethods = useForm<QuizFormType>({
     resolver: zodResolver(quizFormSchema),
@@ -126,7 +128,9 @@ export default function QuizForm({
             <Link href={routes.dashboard}>Cancel</Link>
           </Button>
 
-          <Button type="submit">{submitButtonText}</Button>
+          <Button type="submit" disabled={loading}>
+            {loading ? 'Saving...' : submitButtonText}
+          </Button>
         </footer>
       </form>
     </FormProvider>

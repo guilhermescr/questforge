@@ -4,8 +4,14 @@ import { toast } from 'sonner';
 import QuizForm from '@/src/components/quizForm/QuizForm';
 import { QuizFormType } from '@/src/components/quizForm/quizForm.schema';
 import { supabase } from '@/src/lib/supabaseClient';
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import routes from '@/src/lib/routes';
 
 export default function NewQuizPage() {
+  const [loading, setLoading] = useState(false);
+  const router = useRouter();
+
   const initialValues: QuizFormType = {
     title: '',
     answerCheckingMode: 'immediate',
@@ -22,19 +28,35 @@ export default function NewQuizPage() {
   };
 
   const handleSubmit = async (data: QuizFormType) => {
-    const { error } = await supabase.from('quizzes').insert([
-      {
-        title: data.title,
-        answer_checking_mode: data.answerCheckingMode,
-        questions: data.questions,
-      },
-    ]);
+    setLoading(true);
 
-    if (error) {
-      console.error('Error creating quiz:', error);
-      toast.error('Failed to create quiz.');
-    } else {
-      toast.success('Quiz created successfully!');
+    try {
+      const { data: insertedData, error } = await supabase
+        .from('quizzes')
+        .insert([
+          {
+            title: data.title,
+            answer_checking_mode: data.answerCheckingMode,
+            questions: data.questions,
+          },
+        ])
+        .select('id');
+
+      if (error) {
+        console.error('Error creating quiz:', error);
+        toast.error('Failed to create quiz.');
+      } else {
+        toast.success('Quiz created successfully!');
+        const quizId = insertedData?.[0]?.id;
+        if (quizId) {
+          router.push(routes.quiz.view(quizId));
+        }
+      }
+    } catch (err) {
+      console.error('Unexpected error:', err);
+      toast.error('An unexpected error occurred.');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -50,7 +72,8 @@ export default function NewQuizPage() {
       <QuizForm
         initialValues={initialValues}
         onSubmit={handleSubmit}
-        submitButtonText="Save Quiz"
+        submitButtonText={'Save Quiz'}
+        loading={loading}
       />
     </>
   );
