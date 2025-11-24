@@ -8,8 +8,21 @@ export const answerCheckingModeOptions: AnswerCheckingMode[] = [
 export interface QuizDTO {
   id: string;
   title: string;
-  questions: number;
+  questions: {
+    id: string;
+    prompt: string;
+    options?: string[];
+    correctAnswer: string | boolean;
+    explanation?: string;
+  }[];
   answerChecking: AnswerCheckingMode;
   attempts: number;
-  createdAt: string;
+  created_at: string;
+  total_submissions?: number;
+  average_score?: string;
+  recent_submissions?: {
+    date: string;
+    score: number;
+    percentage: string;
+  }[];
 }

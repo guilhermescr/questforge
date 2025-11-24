@@ -30,10 +30,10 @@ export default function MyQuizzes() {
           const formattedQuizzes = data.map((quiz) => ({
             id: quiz.id,
             title: quiz.title,
-            questions: quiz.questions.length,
+            questions: quiz.questions,
             answerChecking: quiz.answer_checking_mode,
             attempts: quiz.attempts || 0,
-            createdAt: quiz.created_at,
+            created_at: quiz.created_at,
           }));
           setQuizzes(formattedQuizzes);
         }

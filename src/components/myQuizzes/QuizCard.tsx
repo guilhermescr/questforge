@@ -66,8 +66,9 @@ export default function QuizCard({ quiz }: QuizCardProps) {
         <h3 className="font-semibold text-white text-xl pr-6">{quiz.title}</h3>
 
         <p className="text-sm text-muted-foreground mt-2">
-          {quiz.questions} {quiz.questions === 1 ? 'question' : 'questions'}{' '}
-          &bull; {quiz.attempts} {quiz.attempts === 1 ? 'attempt' : 'attempts'}
+          {quiz.questions.length}{' '}
+          {quiz.questions.length === 1 ? 'question' : 'questions'} &bull;{' '}
+          {quiz.attempts} {quiz.attempts === 1 ? 'attempt' : 'attempts'}
         </p>
 
         <p className="text-sm text-muted-foreground mt-2">
@@ -76,7 +77,7 @@ export default function QuizCard({ quiz }: QuizCardProps) {
         </p>
 
         <p className="text-sm text-muted-foreground my-4 flex items-center gap-2">
-          <Clock size={18} /> Created {formatDate(quiz.createdAt)}
+          <Clock size={18} /> Created {formatDate(quiz.created_at)}
         </p>
 
         <div className="flex flex-wrap gap-2 items-center">
