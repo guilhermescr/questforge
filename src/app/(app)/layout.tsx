@@ -6,6 +6,7 @@ import Header from '../../components/header/Header';
 import Wrapper from '@/src/components/wrapper/Wrapper';
 import routes from '@/src/lib/routes';
 import { useUserContext } from '@/src/context/UserContext';
+import Loading from '@/src/components/loading/Loading';
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   const { user } = useUserContext();
@@ -19,7 +20,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   }, [user, router]);
 
   if (user === undefined) {
-    return <p>Loading...</p>;
+    return <Loading height="min-h-screen" />;
   }
 
   if (user === null) {

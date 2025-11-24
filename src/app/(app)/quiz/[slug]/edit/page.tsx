@@ -9,6 +9,7 @@ import { useParams } from 'next/navigation';
 import { Button } from '@/src/components/ui/Button';
 import Link from 'next/link';
 import { MoveLeft } from 'lucide-react';
+import Loading from '@/src/components/loading/Loading';
 
 export default function EditQuizPage() {
   const { slug } = useParams();
@@ -79,7 +80,7 @@ export default function EditQuizPage() {
   }
 
   if (!initialValues) {
-    return <p>Loading...</p>;
+    return <Loading />;
   }
 
   return (
