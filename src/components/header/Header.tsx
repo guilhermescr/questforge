@@ -12,14 +12,14 @@ import {
 import { User, LogOut, Flame } from 'lucide-react';
 import { DropdownMenuLabel } from '@radix-ui/react-dropdown-menu';
 import { useRouter } from 'next/navigation';
-import { useUser } from '@/src/hooks/useUser';
 import { supabase } from '@/src/lib/supabaseClient';
 import routes from '@/src/lib/routes';
 import { Button } from '../ui/Button';
+import { useUserContext } from '@/src/context/UserContext';
 
 export default function Header() {
   const router = useRouter();
-  const user = useUser();
+  const { user } = useUserContext();
 
   if (!user) return null;
 

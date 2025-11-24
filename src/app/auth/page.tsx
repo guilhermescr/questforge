@@ -1,11 +1,11 @@
 'use client';
 
 import { useEffect } from 'react';
-import { useUser } from '@/src/hooks/useUser';
 import { supabase } from '@/src/lib/supabaseClient';
 import { useRouter } from 'next/navigation';
 import GradientText from '../../components/gradientText/GradientText';
 import routes from '@/src/lib/routes';
+import { useUserContext } from '@/src/context/UserContext';
 
 function WhiteGoogleSVG() {
   return (
@@ -31,7 +31,7 @@ function WhiteGoogleSVG() {
 }
 
 export default function AuthPage() {
-  const user = useUser();
+  const { user } = useUserContext();
   const router = useRouter();
 
   useEffect(() => {

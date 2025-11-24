@@ -2,13 +2,13 @@
 
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { useUser } from '@/src/hooks/useUser';
 import Header from '../../components/header/Header';
 import Wrapper from '@/src/components/wrapper/Wrapper';
 import routes from '@/src/lib/routes';
+import { useUserContext } from '@/src/context/UserContext';
 
 export default function Layout({ children }: { children: React.ReactNode }) {
-  const user = useUser();
+  const { user } = useUserContext();
   const router = useRouter();
 
   useEffect(() => {
