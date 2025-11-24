@@ -24,5 +24,4 @@ export const quizFormSchema = z.object({
     .min(1, 'At least one question is required'),
 });
 
-// Export the inferred type
 export type QuizFormType = z.infer<typeof quizFormSchema>;
