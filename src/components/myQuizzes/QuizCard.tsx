@@ -13,9 +13,10 @@ import { supabase } from '@/src/lib/supabaseClient';
 
 interface QuizCardProps {
   quiz: QuizDTO;
+  onDelete: (quizId: string) => void;
 }
 
-export default function QuizCard({ quiz }: QuizCardProps) {
+export default function QuizCard({ quiz, onDelete }: QuizCardProps) {
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
 
@@ -38,7 +39,7 @@ export default function QuizCard({ quiz }: QuizCardProps) {
         throw new Error(error.message);
       }
 
-      // remove the card from the UI or refresh the list
+      onDelete(quiz.id);
 
       toast.success('Quiz deleted successfully!');
     } catch (error) {

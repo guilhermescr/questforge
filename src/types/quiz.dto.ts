@@ -25,4 +25,5 @@ export interface QuizDTO {
     score: number;
     percentage: string;
   }[];
+  created_by: string;
 }

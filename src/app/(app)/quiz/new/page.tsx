@@ -7,10 +7,12 @@ import { supabase } from '@/src/lib/supabaseClient';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import routes from '@/src/lib/routes';
+import { useUserContext } from '@/src/context/UserContext';
 
 export default function NewQuizPage() {
-  const [loading, setLoading] = useState(false);
   const router = useRouter();
+  const { user } = useUserContext();
+  const [loading, setLoading] = useState(false);
 
   const initialValues: QuizFormType = {
     title: '',
@@ -28,6 +30,8 @@ export default function NewQuizPage() {
   };
 
   const handleSubmit = async (data: QuizFormType) => {
+    if (!user) return;
+
     setLoading(true);
 
     try {
@@ -38,6 +42,7 @@ export default function NewQuizPage() {
             title: data.title,
             answer_checking_mode: data.answerCheckingMode,
             questions: data.questions,
+            created_by: user.id,
           },
         ])
         .select('id');

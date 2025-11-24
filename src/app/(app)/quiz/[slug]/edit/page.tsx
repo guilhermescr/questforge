@@ -11,17 +11,20 @@ import Link from 'next/link';
 import { MoveLeft } from 'lucide-react';
 import Loading from '@/src/components/loading/Loading';
 import routes from '@/src/lib/routes';
+import { useUserContext } from '@/src/context/UserContext';
 
 export default function EditQuizPage() {
   const { slug } = useParams();
   const router = useRouter();
+
+  const { user } = useUserContext();
   const [initialValues, setInitialValues] = useState<QuizFormType | null>(null);
   const [notFound, setNotFound] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const hasFetched = useRef(false);
 
   useEffect(() => {
-    if (!slug || hasFetched.current) return;
+    if (!user || !slug || hasFetched.current) return;
 
     const fetchQuiz = async () => {
       try {
@@ -29,6 +32,7 @@ export default function EditQuizPage() {
           .from('quizzes')
           .select('*')
           .eq('id', slug)
+          .eq('created_by', user.id)
           .single();
 
         if (error || !data) {
@@ -52,7 +56,7 @@ export default function EditQuizPage() {
     };
 
     fetchQuiz();
-  }, [slug]);
+  }, [slug, user]);
 
   const handleSubmit = async (data: QuizFormType) => {
     setIsSaving(true);
