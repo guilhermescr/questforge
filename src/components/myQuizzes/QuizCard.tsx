@@ -95,13 +95,6 @@ export default function QuizCard({ quiz }: QuizCardProps) {
           <Button variant="secondary" onClick={handleCopyLink}>
             <Share2 size={18} /> Share
           </Button>
-
-          {/* <Button
-            variant="destructiveOutline"
-            onClick={() => setShowDeleteConfirm(true)}
-          >
-            Delete
-          </Button> */}
         </div>
       </section>
 
