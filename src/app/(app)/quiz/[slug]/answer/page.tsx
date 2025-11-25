@@ -4,8 +4,15 @@ import Wrapper from '@/src/components/wrapper/Wrapper';
 import { answerCheckingModeLabels, QuizDTO } from '@/src/types/quiz.dto';
 import { useState } from 'react';
 import QuestionCard from './QuestionCard';
+import { useUserContext } from '@/src/context/UserContext';
+import { Button } from '@/src/components/ui/Button';
+import { MoveLeft } from 'lucide-react';
+import Link from 'next/link';
+import routes from '@/src/lib/routes';
 
 export default function AnswerQuizPage() {
+  const { user } = useUserContext();
+
   const [questionStates, setQuestionStates] = useState<
     Record<
       string,
@@ -80,6 +87,15 @@ export default function AnswerQuizPage() {
 
   return (
     <Wrapper className="max-w-2xl flex flex-col justify-center items-center min-h-screen">
+      {user && (
+        <Button className="self-start mb-4" variant="outline" asChild>
+          <Link href={routes.quiz.view(quiz.id)}>
+            <MoveLeft className="mr-2" />
+            Back to Analytics
+          </Link>
+        </Button>
+      )}
+
       <header className="flex flex-col gap-2 justify-between w-full">
         <h1 className="text-white text-4xl font-bold">{quiz.title}</h1>
         <p className="text-muted-foreground">
