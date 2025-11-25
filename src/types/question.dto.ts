@@ -11,6 +11,6 @@ export interface QuestionDTO {
   type: QuestionType;
   prompt: string;
   options: string[];
-  correctAnswer: string | boolean;
+  correctAnswer: string;
   explanation?: string;
 }

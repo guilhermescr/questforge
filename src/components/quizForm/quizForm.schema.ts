@@ -17,7 +17,7 @@ export const quizFormSchema = z.object({
         options: z
           .array(z.string().min(1, 'Option cannot be empty'))
           .optional(),
-        correctAnswer: z.union([z.string(), z.boolean()]),
+        correctAnswer: z.string().min(1, 'Correct answer is required'),
         explanation: z.string().optional(),
       })
     )
