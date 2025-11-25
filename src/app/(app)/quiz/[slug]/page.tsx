@@ -17,6 +17,8 @@ import { Button } from '@/src/components/ui/Button';
 import Loading from '@/src/components/loading/Loading';
 import { QuizDTO } from '@/src/types/quiz.dto';
 import { formatDate } from '@/src/utils/dateUtils';
+import Link from 'next/link';
+import routes from '@/src/lib/routes';
 
 export default function ViewQuizPage() {
   const { slug } = useParams();
@@ -120,9 +122,15 @@ export default function ViewQuizPage() {
       </section>
 
       <section className="flex gap-4 mt-6">
-        <Button>
-          <Play className="mr-2" size={16} />
-          Preview Quiz
+        <Button asChild>
+          <Link
+            href={routes.quiz.answer(quiz.id)}
+            target="_blank"
+            rel="noreferrer"
+          >
+            <Play className="mr-2" size={16} />
+            Preview Quiz
+          </Link>
         </Button>
 
         <Button onClick={handleCopyLink}>
