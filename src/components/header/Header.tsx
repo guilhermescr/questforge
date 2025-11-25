@@ -29,7 +29,7 @@ export default function Header() {
   }
 
   return (
-    <header className="w-full py-4 bg-card border-b border-border">
+    <header className="w-full py-4 bg-card border-b border-border sticky top-0 z-10">
       <Wrapper className="flex items-center justify-start">
         <h1 className="font-bold flex items-center gap-2">
           <Flame className="text-primary" />
