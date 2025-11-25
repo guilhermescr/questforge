@@ -10,7 +10,7 @@ export interface QuestionDTO {
   id: string;
   type: QuestionType;
   prompt: string;
-  options?: string[];
-  correctAnswer: string | string[] | boolean;
+  options: string[];
+  correctAnswer: string | boolean;
   explanation?: string;
 }

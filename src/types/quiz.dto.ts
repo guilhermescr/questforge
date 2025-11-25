@@ -1,3 +1,5 @@
+import { QuestionDTO } from './question.dto';
+
 export type AnswerCheckingMode = 'immediate' | 'on-completion';
 
 export const answerCheckingModeOptions: AnswerCheckingMode[] = [
@@ -5,16 +7,15 @@ export const answerCheckingModeOptions: AnswerCheckingMode[] = [
   'on-completion',
 ];
 
+export const answerCheckingModeLabels: Record<AnswerCheckingMode, string> = {
+  immediate: 'Immediate Feedback',
+  'on-completion': 'On Completion',
+};
+
 export interface QuizDTO {
   id: string;
   title: string;
-  questions: {
-    id: string;
-    prompt: string;
-    options?: string[];
-    correctAnswer: string | boolean;
-    explanation?: string;
-  }[];
+  questions: QuestionDTO[];
   answerChecking: AnswerCheckingMode;
   attempts: number;
   created_at: string;
