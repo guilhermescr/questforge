@@ -5,11 +5,11 @@
 
 :root {
   --background: #242a2f;
-  --foreground: #ededed;
+  --foreground: #ffffff;
   --card: #2d3439;
-  --card-foreground: #ededed;
+  --card-foreground: #ffffff;
   --popover: #2d3439;
-  --popover-foreground: #ededed;
+  --popover-foreground: #ffffff;
   --primary: #ef6b14;
   --primary-foreground: #ffffff;
   --secondary: #f6950f;
@@ -17,7 +17,7 @@
   --muted: #3a4248;
   --muted-foreground: #9ca3af;
   --accent: #3a4248;
-  --accent-foreground: #ededed;
+  --accent-foreground: #ffffff;
   --destructive: #dc2626;
   --destructive-foreground: #ffffff;
   --border: #3a4248;
