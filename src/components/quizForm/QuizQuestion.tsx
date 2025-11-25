@@ -16,11 +16,20 @@ interface QuestionLabelProps {
   index: number;
   htmlFor: string;
   text: string;
+  className?: string;
 }
 
-export function QuestionLabel({ index, htmlFor, text }: QuestionLabelProps) {
+export function QuestionLabel({
+  index,
+  htmlFor,
+  text,
+  className,
+}: QuestionLabelProps) {
   return (
-    <label className="block mb-1 font-medium" htmlFor={`${htmlFor}-${index}`}>
+    <label
+      className={`block mb-1 font-medium ${className}`}
+      htmlFor={`${htmlFor}-${index}`}
+    >
       {text}
     </label>
   );
