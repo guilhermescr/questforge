@@ -8,8 +8,14 @@ import { toast } from 'sonner';
 import DeleteDialog from '../deleteDialog/DeleteDialog';
 import { useState } from 'react';
 import routes from '@/src/lib/routes';
-import { Clock, Eye, Pencil, Share2, Trash2 } from 'lucide-react';
+import { Clock, Pencil, Share2, MoreVertical, Trash2 } from 'lucide-react';
 import { supabase } from '@/src/lib/supabaseClient';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/src/components/ui/DropdownMenu';
 
 interface QuizCardProps {
   quiz: QuizDTO;
@@ -26,7 +32,7 @@ export default function QuizCard({ quiz, onDelete }: QuizCardProps) {
     toast.success('Quiz link copied to clipboard!');
   };
 
-  const deleteCard = async () => {
+  const deleteQuiz = async () => {
     setIsDeleting(true);
 
     try {
@@ -55,60 +61,71 @@ export default function QuizCard({ quiz, onDelete }: QuizCardProps) {
     <>
       <section className="p-5 rounded-md bg-card border border-border hover:border-primary transition-colors relative">
         <div className="absolute top-3 right-3">
-          <Button
-            variant="destructiveRounded"
-            size="sm"
-            onClick={() => setShowDeleteConfirm(true)}
-          >
-            <Trash2 size={18} />
-          </Button>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" size="sm">
+                <MoreVertical size={18} />
+              </Button>
+            </DropdownMenuTrigger>
+
+            <DropdownMenuContent align="end">
+              <DropdownMenuItem asChild>
+                <Link href={routes.quiz.edit(quiz.id)}>
+                  <Pencil size={18} className="mr-2" />
+                  Edit
+                </Link>
+              </DropdownMenuItem>
+
+              <DropdownMenuItem onClick={() => setShowDeleteConfirm(true)}>
+                <Trash2 size={18} className="mr-2" />
+                Delete
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
 
-        <h3 className="font-semibold text-white text-xl pr-6">{quiz.title}</h3>
+        <Link href={routes.quiz.view(quiz.id)}>
+          <div className="cursor-pointer">
+            <h3 className="font-semibold text-white text-xl pr-6">
+              {quiz.title}
+            </h3>
 
-        <p className="text-sm text-muted-foreground mt-2">
-          {quiz.questions.length}{' '}
-          {quiz.questions.length === 1 ? 'question' : 'questions'} &bull;{' '}
-          {quiz.attempts} {quiz.attempts === 1 ? 'attempt' : 'attempts'}
-        </p>
+            <p className="text-sm text-muted-foreground mt-2">
+              {quiz.questions.length}{' '}
+              {quiz.questions.length === 1 ? 'question' : 'questions'} &bull;{' '}
+              {quiz.attempts} {quiz.attempts === 1 ? 'attempt' : 'attempts'}
+            </p>
 
-        <p className="text-sm text-muted-foreground mt-2">
-          Answer Checking:{' '}
-          {quiz.answer_checking_mode === 'immediate'
-            ? 'Immediate'
-            : 'On Completion'}
-        </p>
+            <p className="text-sm text-muted-foreground mt-2">
+              Answer Checking:{' '}
+              {quiz.answer_checking_mode === 'immediate'
+                ? 'Immediate'
+                : 'On Completion'}
+            </p>
 
-        <p className="text-sm text-muted-foreground my-4 flex items-center gap-2">
-          <Clock size={18} /> Created {formatDate(quiz.created_at)}
-        </p>
+            <p className="text-sm text-muted-foreground my-4 flex items-center gap-2">
+              <Clock size={18} /> Created {formatDate(quiz.created_at)}
+            </p>
+          </div>
+        </Link>
 
-        <div className="flex flex-wrap gap-2 items-center">
-          <Button size="sm" asChild>
-            <Link href={routes.quiz.view(quiz.id)}>
-              <Eye className="mr-1" size={18} /> View
-            </Link>
-          </Button>
-
-          <Button variant="secondary" asChild>
-            <Link href={routes.quiz.edit(quiz.id)}>
-              <Pencil size={18} /> Edit
-            </Link>
-          </Button>
-
-          <Button variant="secondary" onClick={handleCopyLink}>
-            <Share2 size={18} /> Share
-          </Button>
-        </div>
+        <Button
+          onClick={(e) => {
+            e.stopPropagation();
+            handleCopyLink();
+          }}
+        >
+          <Share2 size={18} /> Share
+        </Button>
       </section>
 
       <DeleteDialog
         isOpen={showDeleteConfirm}
         onOpenChange={setShowDeleteConfirm}
-        onDelete={deleteCard}
+        onDelete={deleteQuiz}
         isDeleting={isDeleting}
-        title="Delete Card?"
-        description="Are you sure you want to delete this card? This action cannot be undone. All comments, likes, and associated data will be permanently removed."
+        title="Delete Quiz?"
+        description="This will permanently delete the quiz and all its data. Are you sure?"
       />
     </>
   );
