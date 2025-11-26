@@ -9,7 +9,7 @@ import Link from 'next/link';
 export default function Dashboard() {
   return (
     <>
-      <header className="flex items-center justify-between">
+      <header className="flex flex-col gap-6 md:flex-row md:items-center justify-between">
         <div>
           <h2 className="text-white text-4xl font-bold mb-3">My Quizzes</h2>
           <p className="text-muted-foreground">
