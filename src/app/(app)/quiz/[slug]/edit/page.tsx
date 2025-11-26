@@ -62,7 +62,7 @@ export default function EditQuizPage() {
         </p>
 
         <Button asChild>
-          <Link href="/dashboard">
+          <Link href={routes.dashboard}>
             <MoveLeft /> Go Back to Dashboard
           </Link>
         </Button>
