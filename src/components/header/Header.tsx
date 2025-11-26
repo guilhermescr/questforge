@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import Link from 'next/link';
 import GradientText from '../gradientText/GradientText';
 import Wrapper from '../wrapper/Wrapper';
@@ -9,17 +10,19 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/src/components/ui/DropdownMenu';
-import { User, LogOut, Flame } from 'lucide-react';
+import { User, LogOut, Flame, Menu, X } from 'lucide-react';
 import { DropdownMenuLabel } from '@radix-ui/react-dropdown-menu';
 import { useRouter } from 'next/navigation';
 import { supabase } from '@/src/lib/supabaseClient';
 import routes from '@/src/lib/routes';
 import { Button } from '../ui/Button';
 import { useUserContext } from '@/src/context/UserContext';
+import Sidebar from '../sidebar/Sidebar';
 
 export default function Header() {
   const router = useRouter();
   const { user } = useUserContext();
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   if (!user) return null;
 
@@ -30,14 +33,14 @@ export default function Header() {
 
   return (
     <header className="w-full py-4 bg-card border-b border-border sticky top-0 z-10">
-      <Wrapper className="flex items-center justify-start">
+      <Wrapper className="flex items-center justify-between">
         <h1 className="font-bold flex items-center gap-2">
           <Flame className="text-primary" />
           <GradientText className="text-2xl">QuestForge</GradientText>
         </h1>
 
-        <nav className="ml-6">
-          <ul className="pt-1">
+        <nav className="hidden md:block ml-6">
+          <ul className="flex gap-4 pt-1">
             <li>
               <Link href={routes.dashboard} className={styles.navLink}>
                 My Quizzes
@@ -48,7 +51,7 @@ export default function Header() {
 
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="ml-auto">
+            <Button variant="ghost" className="hidden md:flex ml-auto">
               <User size={18} className="mr-1" />
               {user.user_metadata.full_name}
             </Button>
@@ -74,7 +77,20 @@ export default function Header() {
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
+
+        <Button
+          aria-label="Toggle Menu"
+          variant="ghost"
+          className="md:hidden ml-auto pr-0"
+          onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+        >
+          {isSidebarOpen ? <X size={24} /> : <Menu size={24} />}
+        </Button>
       </Wrapper>
+
+      {isSidebarOpen && (
+        <Sidebar logout={logout} setIsSidebarOpen={setIsSidebarOpen} />
+      )}
     </header>
   );
 }
