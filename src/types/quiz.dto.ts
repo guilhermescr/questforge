@@ -16,11 +16,11 @@ export interface QuizDTO {
   id: string;
   title: string;
   questions: QuestionDTO[];
-  answerChecking: AnswerCheckingMode;
+  answer_checking_mode: AnswerCheckingMode;
   attempts: number;
   created_at: string;
   total_submissions?: number;
-  average_score?: string;
+  average_score?: number;
   recent_submissions?: {
     date: string;
     score: number;

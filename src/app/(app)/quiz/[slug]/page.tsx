@@ -9,53 +9,32 @@ import {
   ChartNoAxesColumn,
   CircleQuestionMark,
 } from 'lucide-react';
-import { useEffect, useState } from 'react';
-import { supabase } from '@/src/lib/supabaseClient';
+import { useQuiz } from '@/src/hooks/useQuiz';
 import { toast } from 'sonner';
 import { useParams } from 'next/navigation';
 import { Button } from '@/src/components/ui/Button';
 import Loading from '@/src/components/loading/Loading';
-import { QuizDTO } from '@/src/types/quiz.dto';
 import { formatDate } from '@/src/utils/dateUtils';
 import Link from 'next/link';
 import routes from '@/src/lib/routes';
 
 export default function ViewQuizPage() {
   const { slug } = useParams();
-  const [quiz, setQuiz] = useState<QuizDTO | null>(null);
-  const [loading, setLoading] = useState(true);
+  const { quiz, loading, notFound } = useQuiz(slug as string);
 
-  useEffect(() => {
-    const fetchQuiz = async () => {
-      try {
-        const { data, error } = await supabase
-          .from('quizzes')
-          .select('*')
-          .eq('id', slug)
-          .single();
-
-        if (error || !data) {
-          console.error('Error fetching quiz:', error);
-          toast.error('Quiz not found.');
-        } else {
-          setQuiz(data);
-        }
-      } catch (err) {
-        console.error('Unexpected error fetching quiz:', err);
-        toast.error('An unexpected error occurred while fetching the quiz.');
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    if (slug) fetchQuiz();
-  }, [slug]);
+  const handleCopyLink = () => {
+    if (quiz) {
+      const quizLink = `${window.location.origin}/quiz/${quiz.id}`;
+      navigator.clipboard.writeText(quizLink);
+      toast.success('Quiz link copied to clipboard!');
+    }
+  };
 
   if (loading) {
     return <Loading />;
   }
 
-  if (!quiz) {
+  if (notFound || !quiz) {
     return (
       <div className="flex flex-col items-center justify-center h-full">
         <h2 className="text-white text-4xl font-bold mb-3">Quiz Not Found</h2>
@@ -65,12 +44,6 @@ export default function ViewQuizPage() {
       </div>
     );
   }
-
-  const handleCopyLink = () => {
-    const quizLink = `${window.location.origin}/quiz/${quiz.id}`;
-    navigator.clipboard.writeText(quizLink);
-    toast.success('Quiz link copied to clipboard!');
-  };
 
   return (
     <>
@@ -106,7 +79,9 @@ export default function ViewQuizPage() {
             <ChartNoAxesColumn size={24} />
 
             <span className="text-xl font-bold">
-              {quiz.average_score || '0%'}
+              {quiz.average_score
+                ? `${(quiz.average_score * 100).toFixed(2)}%`
+                : '0%'}
             </span>
           </div>
         </div>

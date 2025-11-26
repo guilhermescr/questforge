@@ -37,7 +37,7 @@ export default function MyQuizzes() {
             id: quiz.id,
             title: quiz.title,
             questions: quiz.questions,
-            answerChecking: quiz.answer_checking_mode,
+            answer_checking_mode: quiz.answer_checking_mode,
             attempts: quiz.attempts || 0,
             created_at: quiz.created_at,
             created_by: quiz.created_by,

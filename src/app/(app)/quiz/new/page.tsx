@@ -16,7 +16,7 @@ export default function NewQuizPage() {
 
   const initialValues: QuizFormType = {
     title: '',
-    answerCheckingMode: 'immediate',
+    answer_checking_mode: 'immediate',
     questions: [
       {
         id: '1',
@@ -40,7 +40,7 @@ export default function NewQuizPage() {
         .insert([
           {
             title: data.title,
-            answer_checking_mode: data.answerCheckingMode,
+            answer_checking_mode: data.answer_checking_mode,
             questions: data.questions,
             created_by: user.id,
           },

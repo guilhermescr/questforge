@@ -88,7 +88,7 @@ export default function QuizForm({
 
               <Select
                 id="answer-checking-mode"
-                {...register('answerCheckingMode')}
+                {...register('answer_checking_mode')}
                 options={[
                   {
                     value: 'immediate',
@@ -99,7 +99,7 @@ export default function QuizForm({
                     label: 'On Completion - Check answers at the end',
                   },
                 ]}
-                error={errors.answerCheckingMode}
+                error={errors.answer_checking_mode}
               />
             </div>
 

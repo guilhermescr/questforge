@@ -74,7 +74,9 @@ export default function QuizCard({ quiz, onDelete }: QuizCardProps) {
 
         <p className="text-sm text-muted-foreground mt-2">
           Answer Checking:{' '}
-          {quiz.answerChecking === 'immediate' ? 'Immediate' : 'On Completion'}
+          {quiz.answer_checking_mode === 'immediate'
+            ? 'Immediate'
+            : 'On Completion'}
         </p>
 
         <p className="text-sm text-muted-foreground my-4 flex items-center gap-2">

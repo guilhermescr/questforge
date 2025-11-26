@@ -5,80 +5,50 @@ import { QuestionLabel } from '@/src/components/quizForm/QuizQuestion';
 import { Button } from '@/src/components/ui/Button';
 import { QuestionDTO } from '@/src/types/question.dto';
 import { Check } from 'lucide-react';
-import { useState } from 'react';
 import AnswerRadioButton from './AnswerRadioButton';
-
-function FeedbackMessage({
-  isCorrect,
-  correctAnswer,
-  explanation,
-}: {
-  isCorrect: boolean;
-  correctAnswer: string;
-  explanation?: string;
-}) {
-  return (
-    <div
-      className={`p-4 rounded-lg ${
-        isCorrect ? 'bg-green-500/10' : 'bg-red-500/10'
-      }`}
-    >
-      <p
-        className={`mb-2 font-semibold ${
-          isCorrect ? 'text-green-500' : 'text-red-500'
-        }`}
-      >
-        {isCorrect ? 'Correct!' : 'Incorrect'}
-      </p>
-
-      {!isCorrect && (
-        <p className="mb-2 text-sm text-muted-foreground">
-          Correct answer: {correctAnswer}
-        </p>
-      )}
-
-      {explanation && <p className="text-sm text-foreground">{explanation}</p>}
-    </div>
-  );
-}
+import { AnswerCheckingMode } from '@/src/types/quiz.dto';
+import QuestionFeedbackMessage from './QuestionFeedbackMessage';
 
 interface QuestionCardProps {
+  checkingMode: AnswerCheckingMode;
   question: QuestionDTO;
   index: number;
   state: {
+    userAnswer: string | null;
     isAnswered?: boolean;
     isChecked?: boolean;
     isCorrect?: boolean;
   };
-  onAnswer: (isAnswered: boolean) => void;
+  onAnswer: (isAnswered: boolean, userAnswer: string | null) => void;
   onCheckAnswer: (isCorrect: boolean) => void;
+  isSubmitted: boolean;
 }
 
 export default function QuestionCard({
+  checkingMode,
   question,
   index,
   state,
   onAnswer,
   onCheckAnswer,
+  isSubmitted,
 }: QuestionCardProps) {
-  const [selectedOption, setSelectedOption] = useState<string | null>(null);
-  const [openEndedAnswer, setOpenEndedAnswer] = useState<string>('');
+  const selectedOption = state.userAnswer ?? null;
+  const openEndedAnswer = state.userAnswer ?? '';
 
   const handleOptionSelect = (option: string) => {
-    setSelectedOption(option);
-    onAnswer(true);
+    onAnswer(true, option);
   };
 
   const handleOpenEndedChange = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
     const value = event.target.value;
-    setOpenEndedAnswer(value);
 
     if (value.trim() !== '') {
-      onAnswer(true);
+      onAnswer(true, value);
     } else {
-      onAnswer(false);
+      onAnswer(false, null);
     }
   };
 
@@ -115,7 +85,7 @@ export default function QuestionCard({
                 checked={selectedOption === option}
                 onChange={() => handleOptionSelect(option)}
                 label={`${String.fromCharCode(65 + idx)}.`}
-                disabled={state.isChecked ?? false}
+                disabled={isSubmitted || (state.isChecked ?? false)}
                 isChecked={state.isChecked}
                 isCorrect={state.isCorrect}
               />
@@ -134,7 +104,7 @@ export default function QuestionCard({
                 checked={selectedOption === option}
                 onChange={() => handleOptionSelect(option)}
                 label=""
-                disabled={state.isChecked ?? false}
+                disabled={isSubmitted || (state.isChecked ?? false)}
                 isChecked={state.isChecked}
                 isCorrect={state.isCorrect}
               />
@@ -156,7 +126,7 @@ export default function QuestionCard({
               placeholder="Enter your answer..."
               value={openEndedAnswer}
               onChange={handleOpenEndedChange}
-              disabled={state.isChecked}
+              disabled={isSubmitted || (state.isChecked ?? false)}
               state={{
                 isChecked: state.isChecked,
                 isCorrect: state.isCorrect,
@@ -166,7 +136,7 @@ export default function QuestionCard({
         )}
 
         {state.isChecked && (
-          <FeedbackMessage
+          <QuestionFeedbackMessage
             isCorrect={state.isCorrect ?? false}
             correctAnswer={question.correctAnswer}
             explanation={question.explanation}
@@ -174,9 +144,15 @@ export default function QuestionCard({
         )}
       </section>
 
-      <Button className="mt-3" onClick={handleCheck} disabled={state.isChecked}>
-        <Check size={18} /> {state.isChecked ? 'Checked' : 'Check Answer'}
-      </Button>
+      {checkingMode === 'immediate' && (
+        <Button
+          className="mt-3"
+          onClick={handleCheck}
+          disabled={!state.isAnswered || state.isChecked}
+        >
+          <Check size={18} /> {state.isChecked ? 'Checked' : 'Check Answer'}
+        </Button>
+      )}
     </div>
   );
 }

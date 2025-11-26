@@ -4,7 +4,7 @@ import { questionTypeOptions } from '@/src/types/question.dto';
 
 export const quizFormSchema = z.object({
   title: z.string().min(1, 'Quiz title is required'),
-  answerCheckingMode: z.enum(
+  answer_checking_mode: z.enum(
     answerCheckingModeOptions,
     'Answer checking mode is required'
   ),
