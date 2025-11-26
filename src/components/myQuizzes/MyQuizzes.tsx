@@ -56,7 +56,7 @@ export default function MyQuizzes() {
   }, [user]);
 
   if (loading) {
-    return <Loading />;
+    return <Loading className="mt-4" />;
   }
 
   if (!quizzes.length) {
