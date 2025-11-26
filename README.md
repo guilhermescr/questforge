@@ -138,7 +138,7 @@ QuestForge is built with modern technologies to ensure a seamless and efficient 
 
 ## Links
 
-- **Live Demo**: [https://questforge-ui.vercel.app/](https://questforge.vercel.app/)
+- **Live Demo**: [https://questforge-app.vercel.app/auth](https://questforge.vercel.app/auth)
 - **Repository**: [https://github.com/guilhermescr/questforge](https://github.com/guilhermescr/questforge)
 
 ---
