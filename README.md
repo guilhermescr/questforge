@@ -1,246 +1,156 @@
-# 📘 QuestForge
+![QuestForge Logo](public/images/questforge-logo.png)
 
-**QuestForge** is a modern quiz-creation application that allows users to build questionnaires with **open-ended and multiple-choice questions (A–E)**, configure correction behavior, and generate a **shareable public link** for others to answer.
+# QuestForge
 
----
-
-## 🚀 Key Features
-
-### 🧩 1. Question Builder
-
-Choose between:
-
-- **Open-ended question**
-- **Multiple-choice question** (options A–E)
-
-Define:
-
-- Prompt
-- Correct answer
-- Optional explanation
-- Choice options (for MCQs)
+QuestForge is a modern quiz-creation platform that allows users to create, manage, and share engaging quizzes. With features like multiple question types, customizable settings, and real-time results, QuestForge makes quiz creation simple and fun.
 
 ---
 
-### ⚙️ 2. Quiz Settings
+## Features
 
-The quiz creator can configure:
+### Authentication
 
-- Total number of questions
-- Answer-checking mode:
-  - **Immediate** → show correctness right after answering
-  - **On-submit** → grade only when the quiz is submitted
-- Quiz title
-- Auto-generated slug (public identifier)
+- **Sign In with Google**: Securely log in to access your quizzes and create new ones.
+- **Redirect to Dashboard**: Automatically navigate to your dashboard after signing in.
+
+![Authentication Page](public/readme/auth-page.png)
 
 ---
 
-### 🔗 3. Shareable Quiz Link (no custom backend needed!)
+### Dashboard
 
-After saving to **Supabase**, the app automatically generates:
+- **My Quizzes**: View and manage all your quizzes in one place.
+- **Create New Quiz**: Start building a new quiz with a single click.
 
-```
-https://yourapp.com/quiz/{slug}
-```
-
-Anyone with the link can:
-
-- Take the quiz
-- Receive results depending on the creator’s settings
+![Dashboard](public/readme/dashboard.png)
 
 ---
 
-### 📝 4. Response System
+### Quiz Creation
 
-When a user answers the quiz:
+- **New Quiz**: Add a title, choose answer-checking modes, and create questions.
+- **Question Types**: Choose between true-false, open-ended and multiple-choice questions (A–E).
+- **Customizable Options**: Add explanations, correct answers, and more.
 
-- The frontend stores responses in the `quiz_responses` table
-- The user sees their results immediately (or only after submission)
-- Responses remain available in Supabase (optional)
-
----
-
-### 🧪 5. Built for Testing
-
-The project is designed so testing is effortless:
-
-- Pure logic functions (easy to test)
-- UI component tests (forms, flows, lists)
-- Supabase API mocking
-- Full quiz submission flow testing
+![New Quiz Page](public/readme/new-quiz.png)
 
 ---
 
-## 🏗️ Architecture Overview
+### Quiz Management
 
-### Frontend (Next.js)
+- **View Quiz**: Access detailed analytics for your quiz, including total submissions and average scores.
+- **Edit Quiz**: Modify quiz settings and questions anytime.
+- **Shareable Link**: Copy a public link to share your quiz with others.
 
-```
-/src
-  /components
-  /app
-    /create
-    /quiz/[slug]
-  /lib
-    supabaseClient.js
-    quizLogic.js (pure functions for testing)
-```
-
-### Supabase (no backend required)
-
-#### Table: quizzes
-
-| Field      | Type      | Description                              |
-| ---------- | --------- | ---------------------------------------- |
-| id         | uuid      | Primary key                              |
-| slug       | text      | Public quiz identifier                   |
-| title      | text      | Quiz name                                |
-| settings   | jsonb     | immediate/on-submit, number of questions |
-| questions  | jsonb     | full question set                        |
-| created_at | timestamp | auto                                     |
-
-#### Table: quiz_responses
-
-| Field      | Type      | Description   |
-| ---------- | --------- | ------------- |
-| id         | uuid      | Primary key   |
-| quiz_id    | uuid      | FK to quizzes |
-| answers    | jsonb     | user answers  |
-| score      | numeric   | final score   |
-| created_at | timestamp | auto          |
-
-### Suggested RLS Rules
-
-**quizzes:**
-
-- SELECT → public
-- INSERT → public
-- UPDATE → owner only (if auth is added later)
-
-**quiz_responses:**
-
-- INSERT → public
-- SELECT → private (optional)
+![View Quiz Page](public/readme/view-quiz.png)
 
 ---
 
-## 🔌 Application Flow
+### Quiz Taking
 
-1. Creator builds a quiz
-2. Frontend saves quiz in Supabase
-3. Supabase returns a `slug`
-4. Creator shares the link `/quiz/{slug}`
-5. User answers questions
-6. Frontend posts responses to Supabase
-7. Results displayed according to quiz settings
+- **Answer Quiz**: Participants can answer questions in real-time.
+- **Answer Checking Modes**:
+  - **Immediate**: Show correctness after each question.
+  - **On-Submit**: Display results only after the quiz is submitted.
 
----
-
-## 🧠 Answer Checking Modes
-
-### 🔵 Immediate Mode
-
-For each question:
-
-- User answers
-- The system instantly shows correct/incorrect
-- Optional explanation shown
-- Moves to next question
-
-### 🟢 On-Submit Mode
-
-- User completes all questions
-- Submits quiz
-- Score and full answer key shown at the end
+![Answer Quiz Page](public/readme/answer-quiz.png)
 
 ---
 
-## 📦 Tech Stack
+### Quiz Results
 
-- **React / Next.js**
-- **Supabase** (Postgres + REST API + RLS)
-- **Tailwind / shadcn/ui** (optional)
-- **Vitest / React Testing Library** (recommended)
-- **Zustand or Context API** (state management)
+- **Results Summary**: See total correct answers, percentage scores, and feedback messages.
+- **Retake Quiz**: Allow participants to retry the quiz for better results.
 
----
-
-## 🧪 Testing Coverage Recommendations
-
-### 1. Pure Logic Tests (Unit Tests)
-
-- Validate question structure
-- Correct open-ended answers
-- Correct MCQ answers
-- Score calculation
-- Answer-checking mode logic
-
-### 2. UI Tests
-
-- Add and edit questions
-- Switch open/closed types
-- Fill in alternatives
-- Quiz preview
-- Load quiz by slug
-- Submit quiz
-
-### 3. API Mock Tests
-
-- GET quiz by slug
-- POST response
-- Failure scenarios
+![Quiz Results Page](public/readme/quiz-results.png)
 
 ---
 
-## 🛠️ Installation
+## Technology
 
-```
-git clone https://github.com/yourusername/questforge
-cd questforge
-npm install
-```
+QuestForge is built with modern technologies to ensure a seamless and efficient experience.
 
-Create a `.env` file:
-
-```
-NEXT_PUBLIC_SUPABASE_URL=...
-NEXT_PUBLIC_SUPABASE_ANON_KEY=...
-```
-
-Run the dev server:
-
-```
-npm run dev
-```
+**Stack:** React, Next.js, TypeScript, Tailwind CSS, Supabase, React Hook Form + Zod, Sonner, UUID, Date FNS.
 
 ---
 
-## 🌐 Deployment
+## Getting Started
 
-Recommended:
+### Prerequisites
 
-- **Vercel**
-- Connect Supabase environment variables
+- Node.js
+- npm or yarn
+
+### Installation
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/guilhermescr/questforge.git
+   ```
+2. Navigate to the project directory:
+   ```bash
+   cd questforge
+   ```
+3. Install dependencies:
+   ```bash
+   npm install
+   ```
+4. Create a `.env` file with your Supabase credentials:
+   ```env
+   NEXT_PUBLIC_BASE_URL=your-url.here
+   NEXT_PUBLIC_SUPABASE_URL=your-supabase-url
+   NEXT_PUBLIC_SUPABASE_ANON_KEY=your-supabase-anon-key
+   ```
+5. Start the development server:
+   ```bash
+   npm run dev
+   ```
 
 ---
 
-## 🧭 Future Improvements
+## Screenshots
 
-- 🔒 Creator authentication (optional)
-- 📊 Results dashboard
-- 🎨 Quiz theming
-- 🔄 Duplicate questions
-- 📤 Export quizzes as PDF
-- 📥 Import quizzes from JSON
+### Authentication Page
+
+![Authentication Page](public/readme/auth-page.png)
+
+### Dashboard
+
+![Dashboard](public/readme/dashboard.png)
+
+### New Quiz
+
+![New Quiz](public/readme/new-quiz.png)
+
+### View Quiz
+
+![View Quiz](public/readme/view-quiz.png)
+
+### Answer Quiz
+
+![Answer Quiz](public/readme/answer-quiz.png)
+
+### Quiz Results
+
+![Quiz Results](public/readme/quiz-results.png)
 
 ---
 
-## 🤝 Contributing
+## Links
 
-Pull requests and suggestions are welcome!
+- **Live Demo**: [https://questforge-ui.vercel.app/](https://questforge.vercel.app/)
+- **Repository**: [https://github.com/guilhermescr/questforge](https://github.com/guilhermescr/questforge)
 
 ---
 
-## 📜 License
+## Reporting Issues
 
-MIT License
+If you encounter any critical bugs or security vulnerabilities, please contact me directly at **devguiga@gmail.com**. Your feedback is highly appreciated and helps improve the platform!
+
+---
+
+## Authors
+
+- **Guilherme Rocha**  
+  Follow me on [GitHub](https://github.com/guilhermescr) and join the community!  
+  Thank you for visiting, and happy quiz forging!
