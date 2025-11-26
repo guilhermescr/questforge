@@ -27,7 +27,7 @@ export default function QuizCard({ quiz, onDelete }: QuizCardProps) {
   const [isDeleting, setIsDeleting] = useState(false);
 
   const handleCopyLink = () => {
-    const quizLink = `${window.location.origin}/quiz/${quiz.id}`;
+    const quizLink = `${window.location.origin}/quiz/${quiz.id}/answer`;
     navigator.clipboard.writeText(quizLink);
     toast.success('Quiz link copied to clipboard!');
   };

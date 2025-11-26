@@ -24,7 +24,7 @@ export default function ViewQuizPage() {
 
   const handleCopyLink = () => {
     if (quiz) {
-      const quizLink = `${window.location.origin}/quiz/${quiz.id}`;
+      const quizLink = `${window.location.origin}/quiz/${quiz.id}/answer`;
       navigator.clipboard.writeText(quizLink);
       toast.success('Quiz link copied to clipboard!');
     }
