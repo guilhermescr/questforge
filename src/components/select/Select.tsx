@@ -23,7 +23,7 @@ export default function Select({
       <div className="relative">
         <select
           {...rest}
-          className={`cursor-pointer w-full p-2 border-2 border-border rounded-md bg-input text-white focus:outline-none focus:ring focus:ring-ring focus:border-ring transition appearance-none ${
+          className={`cursor-pointer w-full p-2 pr-8 border-2 border-border rounded-md bg-input text-white focus:outline-none focus:ring focus:ring-ring focus:border-ring transition appearance-none ${
             error ? 'border-red-500' : ''
           } ${className}`}
         >
