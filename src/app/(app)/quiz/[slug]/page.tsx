@@ -14,7 +14,7 @@ import { toast } from 'sonner';
 import { useParams } from 'next/navigation';
 import { Button } from '@/src/components/ui/Button';
 import Loading from '@/src/components/loading/Loading';
-import { formatDate } from '@/src/utils/dateUtils';
+import { formatDate, formatDateTime } from '@/src/utils/dateUtils';
 import Link from 'next/link';
 import routes from '@/src/lib/routes';
 
@@ -132,7 +132,7 @@ export default function ViewQuizPage() {
                   key={index}
                   className="bg-card rounded-md p-4 flex justify-between items-center"
                 >
-                  <span>{formatDate(submission.date)}</span>
+                  <span>{formatDateTime(submission.date)}</span>
 
                   <span>
                     {submission.score}/{quiz.questions.length} (

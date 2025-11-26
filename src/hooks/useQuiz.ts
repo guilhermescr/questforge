@@ -19,15 +19,38 @@ export function useQuiz(slug: string | undefined, createdBy?: string) {
           query.eq('created_by', createdBy);
         }
 
-        const { data, error } = await query.single();
+        const { data: quizData, error: quizError } = await query.single();
 
-        if (error || !data) {
-          console.error('Error fetching quiz:', error);
+        if (quizError || !quizData) {
+          console.error('Error fetching quiz:', quizError);
           setNotFound(true);
           toast.error('Quiz not found.');
-        } else {
-          setQuiz(data);
+          setLoading(false);
+          return;
         }
+
+        const { data: submissionData, error: submissionError } = await supabase
+          .from('responses')
+          .select('score, submitted_at')
+          .eq('quiz_id', slug)
+          .order('submitted_at', { ascending: false })
+          .limit(10);
+
+        if (submissionError) {
+          console.error('Error fetching submissions:', submissionError);
+        }
+
+        const recentSubmissions =
+          submissionData?.map((s) => ({
+            date: s.submitted_at,
+            score: Math.round(s.score * quizData.questions.length),
+            percentage: Math.round(s.score * 100),
+          })) ?? [];
+
+        setQuiz({
+          ...quizData,
+          recent_submissions: recentSubmissions,
+        });
       } catch (err) {
         console.error('Unexpected error fetching quiz:', err);
         toast.error('An unexpected error occurred while fetching the quiz.');
