@@ -52,13 +52,17 @@ export default function QuizResults({
           <p className="text-foreground font-medium">{feedbackMessage}</p>
         </div>
 
-        <div className="flex gap-3 items-center justify-center">
-          <Button variant="secondary" onClick={onRetake}>
+        <div className="flex flex-col md:flex-row gap-3 items-center justify-center">
+          <Button
+            className="w-full md:w-auto"
+            variant="secondary"
+            onClick={onRetake}
+          >
             <RefreshCcw className="mr-2" size={16} />
             Retake Quiz
           </Button>
 
-          <Button size="sm" asChild>
+          <Button className="w-full md:w-auto" size="sm" asChild>
             <Link href={routes.dashboard}>
               <Home className="mr-2" size={16} />
               Back to Dashboard
